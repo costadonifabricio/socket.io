@@ -28,6 +28,12 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('user disconnected');
     });
+    socket.on('typing', (username) => {
+        socket.broadcast.emit('user typing', username);
+      });
+      socket.on('stop typing', (username) => {
+        socket.broadcast.emit('user stop typing', username);
+      });
 });
 
 server.listen(3000, () => {

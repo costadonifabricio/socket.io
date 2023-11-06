@@ -25,13 +25,13 @@ form.addEventListener('submit', function (e) {
   }
 });
 
-// Escuchar mensajes del servidor
+// Escucha los mensajes del servidor
 socket.on('chat message', function (data) {
   let item = document.createElement('li');
   item.textContent = `${data.username}: ${data.message}`;
   messages.appendChild(item);
 
-  // Almacenar mensaje en el historial
+  // Almacena los mensajes
   messageHistory.push(`${data.username}: ${data.message}`);
   localStorage.setItem('messageHistory', JSON.stringify(messageHistory));
 
@@ -39,6 +39,31 @@ socket.on('chat message', function (data) {
 });
 
 
+let typingTimer; 
+const doneTypingInterval = 1000;
+
+// captura el evento cuando el usuario comienza a escribir
+inputMessage.addEventListener('input', function () {
+  socket.emit('typing', inputUsername.value);
+
+  // Es el temporizador
+  clearTimeout(typingTimer);
+  typingTimer = setTimeout(function () {
+    socket.emit('stop typing', inputUsername.value);
+  }, doneTypingInterval);
+});
+
+// Escuchar evento 'user typing' cuando el usuario escribe
+socket.on('user typing', function (username) {
+  let typingIndicator = document.getElementById('typing-indicator');
+  typingIndicator.textContent = `${username} está escribiendo...`;
+});
+
+// Escuchar evento 'user stop typing' cuando el usuario no escribe
+socket.on('user stop typing', function (username) {
+  let typingIndicator = document.getElementById('typing-indicator');
+  typingIndicator.textContent = '';
+});
 
 
 
