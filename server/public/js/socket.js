@@ -1,7 +1,8 @@
 let socket = io();
 let messages = document.getElementById('messages');
 let form = document.getElementById('form');
-let input = document.getElementById('input');
+let inputMessage = document.getElementById('message');
+let inputUsername = document.getElementById('username');
 let messageHistory = JSON.parse(localStorage.getItem('messageHistory')) || [];
 
 // Mostrar mensajes almacenados al cargar la página
@@ -13,26 +14,32 @@ messageHistory.forEach(function (msg) {
 
 form.addEventListener('submit', function (e) {
   e.preventDefault();
-  if (input.value) {
-    // Enviar mensaje al servidor a través del socket
-    socket.emit('chat message', input.value);
+  if (inputMessage.value && inputUsername.value) {
+    // Enviar mensaje y nombre de usuario al servidor a través del socket
+    socket.emit('chat message', {
+      username: inputUsername.value,
+      message: inputMessage.value
+    });
 
-    input.value = '';
+    inputMessage.value = '';
   }
 });
 
 // Escuchar mensajes del servidor
-socket.on('chat message', function (msg) {
+socket.on('chat message', function (data) {
   let item = document.createElement('li');
-  item.textContent = msg;
+  item.textContent = `${data.username}: ${data.message}`;
   messages.appendChild(item);
 
   // Almacenar mensaje en el historial
-  messageHistory.push(msg);
+  messageHistory.push(`${data.username}: ${data.message}`);
   localStorage.setItem('messageHistory', JSON.stringify(messageHistory));
 
   window.scrollTo(0, document.body.scrollHeight);
 });
+
+
+
 
 
 
