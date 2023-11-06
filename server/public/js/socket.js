@@ -1,5 +1,5 @@
 let socket = io();
-
+    
 let messages = document.getElementById('messages');
 let form = document.getElementById('form');
 let input = document.getElementById('input');
