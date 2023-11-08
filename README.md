@@ -35,7 +35,7 @@ Ejecuta el servidor Node.js con el siguiente comando:
 ```bash
 npm start
 ```
-O lo puedes ejecuatar en modo de desarrollo con el siguiente comando:
+O lo puedes ejecutar en modo de desarrollo con el siguiente comando:
 ```bash
 npm run dev
 ```
