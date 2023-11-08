@@ -7,12 +7,12 @@ body {
     margin: 0;
 }
 
-
 .card {
     width: 100%;
     max-width: 750px;
     border-radius: 50px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .card-body {
@@ -23,6 +23,9 @@ body {
     list-style-type: none;
     margin: 0;
     padding: 0;
+    overflow-y: auto; 
+    height: 90vh; 
+    max-height: 70vh; 
 }
 
 #messages>li {
